@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppSpy", "AppSpy\AppSpy.csproj", "{608131B5-050C-4CBA-849E-086CD36F0950}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MouseKeyboardLibrary", "MouseKeyboardLibrary\MouseKeyboardLibrary.csproj", "{F419622F-4D82-40A6-B4FB-3FE36579F018}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{608131B5-050C-4CBA-849E-086CD36F0950}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{608131B5-050C-4CBA-849E-086CD36F0950}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{608131B5-050C-4CBA-849E-086CD36F0950}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{608131B5-050C-4CBA-849E-086CD36F0950}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F419622F-4D82-40A6-B4FB-3FE36579F018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F419622F-4D82-40A6-B4FB-3FE36579F018}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F419622F-4D82-40A6-B4FB-3FE36579F018}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F419622F-4D82-40A6-B4FB-3FE36579F018}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C0FC82DC-24B1-4BCD-B360-AC590B4F4402}
+	EndGlobalSection
+EndGlobal
