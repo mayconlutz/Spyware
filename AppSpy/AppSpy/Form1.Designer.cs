@@ -1,4 +1,8 @@
-﻿namespace AppSpy
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+
+namespace AppSpy
 {
     partial class Form1
     {
@@ -28,7 +32,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 60000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
@@ -37,6 +48,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.ResumeLayout(false);
@@ -44,6 +56,9 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Timer timer1;
     }
+
 }
 
